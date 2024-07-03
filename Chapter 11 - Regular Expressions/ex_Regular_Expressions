@@ -1,0 +1,29 @@
+import re
+
+# open the file
+fhand = open('regex_sum_2015686.txt')
+# define 
+numlist = list()
+total = 0
+# read the file
+for line in fhand:
+    #strip out end character
+    line = line.rstrip()
+    # search for numbers in file and extract from each line
+    numbers = re.findall('[0-9]+', line)
+    # skip over blanks
+    if len(numbers) < 1: continue
+   
+    # get all the numbers out
+    for values in numbers:
+        # add to list and convert to int
+        numlist.append(int(values))
+    #calculate total
+    total = sum(numlist)
+# print the total
+print(total)
+
+
+x = 'From: Using the : character'
+y = re.findall('^F.+:', x)
+print(y)

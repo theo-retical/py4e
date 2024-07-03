@@ -1,28 +1,40 @@
-import ssl
-from urllib.request import urlopen
-
+import urllib.request, urllib.parse, urllib.error
 from bs4 import BeautifulSoup
-
-# list for numbers ??
-content_list = list()
+import ssl
 
 # Ignore SSL certificate errors
 ctx = ssl.create_default_context()
 ctx.check_hostname = False
 ctx.verify_mode = ssl.CERT_NONE
 
-url = input('Enter - ')
-html = urlopen(url, context=ctx).read()
-soup = BeautifulSoup(html, "html.parser")
+url_list = list()
 
-# Retrieve all of the anchor tags
-tags = soup('span')
-for tag in tags:
-    # pull the contents of the tag and append to the list
-    content_list.append(int(tag.contents[0]))
+# first link
+url = input("Enter URL: ")
 
-    # total the values
-    total = sum(content_list)
+#parameters
+repeat = int(input("Enter count: "))
+position = int(input("Enter position: "))
 
-# print the total
-print(total)
+for i in range(repeat):
+    # get the html from the link provided
+    html = urllib.request.urlopen(url, context=ctx).read()
+    # use beautiful soup to parse the html
+    soup = BeautifulSoup(html, 'html.parser')
+    # retrieve all of the anchor tags
+    tags = soup('a')
+    counter = 0
+    
+    # loop through the tags
+    for tag in tags:
+        counter = counter +1
+        if counter > position:
+            break
+        # set url to latest page overwriting Fikret
+        content = tag.contents[0]
+        url = tag.get('href', None)
+        
+# print the last name in the list
+print(content)  
+
+        
